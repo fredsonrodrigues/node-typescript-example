@@ -1,8 +1,9 @@
-import express from "express";
+import express, {Application} from "express";
+import { routes } from "./Routes";
 
 class App {
 
-    public express: express.Application;
+    public express: Application;
     
     constructor() {
         this.express = express();
@@ -20,16 +21,8 @@ class App {
         As rotas são carregadas aqui
     */
     private routes(): void {
-        let router = express.Router();
-
-        router.get('/', (req, res) => {
-            res.json({
-                message: 'Olá Typescript'
-            });
-        });
-
         // Rotas importadas
-        this.express.use('/', router);
+        routes.map(el => this.express.use(el.path, el.controller))
     }
 }
 export default new App().express;
